@@ -17,6 +17,7 @@ import {
   EyeOff,
 } from "lucide-react";
 import { useNavigate } from "react-router";
+import binaireLogo from "../assets/binaire_website_logomark_black.svg";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -85,11 +86,7 @@ export default function App() {
     <div className="min-h-screen bg-neutral-200 selection:bg-neutral-600 selection:text-neutral-100 flex flex-col items-center justify-center p-4 gap-6">
       <div className="w-full mx-auto absolute top-0 inset-x-0 px-10 flex items-center justify-center p-3">
         <div className="relative w-fit sm:ml-[90px] h-full">
-          <img
-            src="../assets/binaire_website_logomark_black.svg"
-            className="h-10 ml-8"
-            loading="lazy"
-          />
+          <img src={binaireLogo} className="h-10 ml-8" loading="lazy" />
         </div>
       </div>
       <div className="sm:text-6xl text-3xl font-Bricolage font-bold">

@@ -198,7 +198,7 @@ export const AttendanceCalendar = () => {
               <div>Present</div>
             </div>
             <div className="flex gap-2">
-              <div className="bg-yello-600 rounded-xl size-7 flex"></div>
+              <div className="bg-yellow-600 rounded-xl size-7 flex"></div>
               <div>Incomplete</div>
             </div>
             <div className="flex gap-2">
