@@ -1,0 +1,82 @@
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Sora:wght@100..800&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-Bricolage: "Bricolage Grotesque", sans-serif;
+  --font-Sora: "Sora", sans-serif;
+}
+/* react-calendar base override */
+.react-calendar {
+  background: transparent;
+  border: none;
+  width: 100%;
+  color: "black";
+}
+
+.react-calendar__tile {
+  align-items: center !important;
+  justify-content: center !important;
+  /* border-radius: 0.75rem; */
+  padding: 0.75rem 0;
+}
+
+/* Status tiles */
+.present-tile {
+  background-color: "red";
+}
+
+.absent-tile {
+  background-color: "black";
+}
+
+.halfday-tile {
+  background-color: rgba(234, 179, 8, 0.15);
+}
+
+.today-tile {
+  border: 2px solid #22c55e;
+}
+
+/* Disabled dates */
+.react-calendar__tile:disabled {
+  background-color: rgba(64, 64, 64, 0.3);
+  color: #6b7280 !important;
+}
+
+.react-calendar__tile--active {
+  background: #16a34a !important;
+  color: white !important;
+}
+.react-calendar__tile:enabled:hover {
+  background: #bbf7d0 !important;
+}
+
+.react-calendar__viewContainer {
+  height: 100%;
+  border-radius: 12px;
+}
+.react-calendar__month-view {
+  height: 97%;
+  border-radius: 12px;
+}
+.react-calendar__month-view > div {
+  height: 90%;
+  border-radius: 12px;
+}
+.react-calendar__month-view > div > div {
+  height: 90%;
+  border-radius: 12px;
+}
+.react-calendar__month-view__days {
+  height: 90%;
+  border-radius: 12px;
+}
+.react-calendar__tile {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black !important;
+  border-radius: 4px !important;
+}
+.react-calendar__navigation {
+  margin-bottom: 1px !important;
+}
