@@ -38,6 +38,7 @@ export function TrackingInterface({ onBack }) {
   const [isWFHApproved, setIsWFHApproved] = useState(false);
   const [wfhReason, setWfhReason] = useState("");
   const [isWFHSubmitted, setIsWFHSubmitted] = useState(false);
+  const [checkInTime, setCheckInTime] = useState(null);
 
   const [attendanceStatus, setAttendanceStatus] = useState("idle");
   const [activeSessionId, setActiveSessionId] = useState(null);
@@ -152,18 +153,14 @@ export function TrackingInterface({ onBack }) {
 
   //you can check out when attendanceStatus == checked-in and not loading and dailyTask length > 5
   const canCheckOut =
-    attendanceStatus === "checked-in" && !loading && dailyTask.length > 5;
+    attendanceStatus === "checked-in" &&
+    !loading &&
+    dailyTask.trim().length > 10;
 
   const handleCheckIn = async () => {
     if (!loggedInUser || !canCheckIn) return <Loader />;
     setLoading(true);
     try {
-      const now = await getServerTime();
-      // Range: 8:00 AM to 9:30 AM
-      if (!isWithinTimeRange(now, 8, 0, 9, 30)) {
-        throw new Error("Check-in allowed only between 8:00 AM and 9:30 AM");
-      }
-
       const attendanceCollRef = doc(
         db,
         "users",
@@ -187,6 +184,8 @@ export function TrackingInterface({ onBack }) {
         },
         { merge: true },
       );
+      const now = await getServerTime();
+      setCheckInTime(now);
       alert("check in submitted");
     } catch (err) {
       alert(err);
@@ -232,12 +231,6 @@ export function TrackingInterface({ onBack }) {
     console.log("checkOutTime clicked ");
     setLoading(true);
     try {
-      const now = await getServerTime();
-      // Range: 8:00 AM to 9:30 AM
-      if (!isWithinTimeRange(now, 8, 0, 9, 30)) {
-        throw new Error("Check-in allowed only between 8:00 AM and 9:30 AM");
-      }
-
       const docRef = doc(db, "users", loggedInUser.email, "attendance", today);
       await updateDoc(docRef, {
         checkOutTime: serverTimestamp(),
@@ -257,7 +250,7 @@ export function TrackingInterface({ onBack }) {
   };
 
   const handleWFHSubmit = () => {
-    if (wfhReason.length >= 5) {
+    if (wfhReason.trim().length >= 10) {
       setIsWFHSubmitted(true);
     } else {
       alert("write reasonable reason.");
@@ -336,17 +329,31 @@ export function TrackingInterface({ onBack }) {
               </button>
             </header>
           </div>
+          {attendanceStatus !== "idle" && (
+            <div className=" bg-white py-6 px-4 rounded-xl shadow-xs border border-neutral-300 mb-8 gap-4 max-w-4xl mx-auto flex flex-col text-blue-800 animate-pulse font-Sora ">
+              <div>
+                {attendanceStatus === "checked-in"
+                  ? `You are now checked-in`
+                  : attendanceStatus === "checked-out"
+                    ? "You are now checked-out"
+                    : ""}
+                {attendanceStatus === "checked-in" ? checkInTime : ""}
+              </div>
+            </div>
+          )}
 
           <div className="bg-white mb-8 font-Sora py-8 rounded-xl shadow-xs border border-neutral-300 space-y-8 relative overflow-hidden px-1">
             {/* Toggle Section */}
-            <div className="space-y-3">
+            <div
+              className={`space-y-3 ${attendanceStatus !== "idle" ? "opacity-30 grayscale pointer-events-none" : ""}`}
+            >
               <Toggle
                 label="On-Leave"
                 icon={PlaneTakeoff}
                 active={isOnLeave}
                 onToggle={() => setIsOnLeave(!isOnLeave)}
                 disabled={
-                  attendanceStatus !== "idle" && attendanceStatus === "on-leave"
+                  attendanceStatus === "idle" && attendanceStatus === "on-leave"
                 }
               />
             </div>
@@ -424,7 +431,7 @@ export function TrackingInterface({ onBack }) {
                     {!isWFHSubmitted && (
                       <button
                         onClick={handleWFHSubmit}
-                        disabled={wfhReason.length < 5}
+                        disabled={wfhReason.trim().length < 10}
                         className="w-full bg-amber-400 text-amber-900 font-bold py-4 rounded-xl shadow-md hover:bg-amber-500 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                       >
                         Submit
@@ -506,13 +513,34 @@ export function TrackingInterface({ onBack }) {
                 />
                 <button
                   disabled={
-                    dailyTask.length < 5 || attendanceStatus !== "checked-in"
+                    dailyTask.trim().length < 10 ||
+                    attendanceStatus !== "checked-in"
                   }
                   className="w-full bg-amber-400 text-amber-900 font-bold py-4 rounded-xl shadow-md hover:bg-amber-500 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                   onClick={() => alert("task added")}
                 >
                   <Send className="w-4 h-4" /> Submit Task Log
                 </button>
+              </div>
+              <div
+                className={`p-6 bg-slate-50 rounded-xl border border-slate-200 space-y-6 transition-opacity ${isWFH && !isWFHSubmitted ? "opacity-30 pointer-events-none" : ""}`}
+              >
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-amber-100 p-4 rounded-xl text-center font-bold text-amber-900 text-sm shadow-sm flex items-center justify-center">
+                    Check-out
+                  </div>
+                  <button
+                    disabled={!canCheckOut}
+                    onClick={handleCheckOutSubmit}
+                    className={`p-4 rounded-xl font-bold text-sm shadow-sm transition-all flex items-center justify-center gap-2 ${!canCheckOut ? "bg-slate-200 text-slate-400" : "bg-amber-400 text-amber-900 hover:bg-amber-500 active:scale-95"}`}
+                  >
+                    {loading ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      "Submit"
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
