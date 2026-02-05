@@ -46,10 +46,11 @@ export default function App() {
 
     try {
       const response = await loginWithEmail(formData.email, formData.password);
+      console.log("response : ", response);
       setLoggedInUser({ email: formData.email, uid: response.uid });
       console.log("context logged in user : ", loggedInUser);
       setStatus("Logged in successfully!");
-      if (formData.email === "tempAdmin001@gmail.com") {
+      if (formData.email === "tempadmin001@gmail.com") {
         navigate("/mainadmindashboard");
       } else {
         navigate("/calendar");

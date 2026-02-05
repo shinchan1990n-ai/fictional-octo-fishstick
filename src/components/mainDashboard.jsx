@@ -103,7 +103,7 @@ export function MainAdminDashboard({ onBack }) {
 
   return (
     <>
-      {loggedInUser?.email === "admin123@gmail.com" ? (
+      {loggedInUser?.email === "tempadmin001@gmail.com" ? (
         <div className="selection:bg-neutral-600 selection:text-neutral-100 space-y-6 max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-4">
           <button
             onClick={() => navigate("/")}
