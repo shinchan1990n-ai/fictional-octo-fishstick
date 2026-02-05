@@ -49,7 +49,7 @@ export default function App() {
       setLoggedInUser({ email: formData.email });
       console.log("context logged in user : ", loggedInUser);
       setStatus("Logged in successfully!");
-      if (formData.email === "admin123@gmail.com") {
+      if (formData.email === "tempAdmin001@gmail.com") {
         navigate("/mainadmindashboard");
       } else {
         navigate("/calendar");

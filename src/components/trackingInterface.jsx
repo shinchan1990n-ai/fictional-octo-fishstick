@@ -449,8 +449,10 @@ export function TrackingInterface({ onBack }) {
                   >
                     {loading ? (
                       <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : attendanceStatus === "checked-in" ? (
+                      "entry saved"
                     ) : (
-                      "Submit"
+                      "submit"
                     )}
                   </button>
 
