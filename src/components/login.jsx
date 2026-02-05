@@ -45,8 +45,8 @@ export default function App() {
     setStatus("Processing...");
 
     try {
-      await loginWithEmail(formData.email, formData.password);
-      setLoggedInUser({ email: formData.email });
+      const response = await loginWithEmail(formData.email, formData.password);
+      setLoggedInUser({ email: formData.email, uid: response.uid });
       console.log("context logged in user : ", loggedInUser);
       setStatus("Logged in successfully!");
       if (formData.email === "tempAdmin001@gmail.com") {
