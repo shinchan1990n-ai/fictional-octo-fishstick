@@ -63,21 +63,21 @@ export function TrackingInterface({ onBack }) {
   };
 
   //using worldtimeapi to get currnt indian time.
-  async function getServerTime() {
-    try {
-      const response = await fetch(
-        "https://worldtimeapi.org/api/timezone/Asia/Kolkata",
-      );
-      const data = await response.json();
-      return new Date(data.datetime);
-    } catch (error) {
-      console.error(
-        "Failed to fetch server time, falling back to local:",
-        error,
-      );
-      return new Date();
-    }
-  }
+  // async function getServerTime() {
+  //   try {
+  //     const response = await fetch(
+  //       "https://worldtimeapi.org/api/timezone/Asia/Kolkata",
+  //     );
+  //     const data = await response.json();
+  //     return new Date(data.datetime);
+  //   } catch (error) {
+  //     console.error(
+  //       "Failed to fetch server time, falling back to local:",
+  //       error,
+  //     );
+  //     return new Date();
+  //   }
+  // }
   //isWithinTimeRange function to check current indian time at moment which user opened the app is within range.
   //now is the time from server.
   const isWithinTimeRange = (now, startH, startM, endH, endM) => {
@@ -184,8 +184,8 @@ export function TrackingInterface({ onBack }) {
         },
         { merge: true },
       );
-      const now = await getServerTime();
-      setCheckInTime(now);
+      setCheckInTime(serverTimestamp());
+      console.log("check in time : ", checkInTime);
       alert("check in submitted");
     } catch (err) {
       alert(err);

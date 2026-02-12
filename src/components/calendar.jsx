@@ -192,7 +192,7 @@ export const AttendanceCalendar = () => {
           <div className="font-Sora text-red-600 text-xs text-start animate-pulse px-5 pt-6">
             Click on today's date to check-in and check-out.
           </div>
-          <div className="flex flex-col gap-2 font-Sora w-full px-4 py-6">
+          <div className="flex flex-col gap-2 font-Sora max-w-[400px] w-full px-4 py-6">
             <div className="flex gap-2">
               <div className="bg-green-600 rounded-xl size-7 flex"></div>
               <div>Present</div>
